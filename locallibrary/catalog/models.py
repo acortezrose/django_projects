@@ -38,7 +38,12 @@ class Book(models.Model):
     def get_absolute_url(self):
         """returns the url to accesss a detail record for this book"""
         return reverse('book-detail', args=[str(self.id)])
+    
+    def display_genre(self):
+        """create a string for the genre. this is requried to display genre in admin"""
+        return ', '.join(genre.name for genre in self.genre.all()[:3])
 
+    display_genre.short_description = 'Genre'
 
 import uuid
 
