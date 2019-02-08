@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+from datetime import date
 
 # Create your models here.
 class Genre(models.Model):
@@ -46,6 +48,7 @@ class Book(models.Model):
     display_genre.short_description = 'Genre'
 
 import uuid
+import datetime
 
 class BookInstance(models.Model):
     """model representing a specific copy of a book"""
@@ -53,6 +56,13 @@ class BookInstance(models.Model):
     book = models.ForeignKey('Book', on_delete=models.SET_NULL, null=True)
     imprint = models.CharField(max_length=200)
     due_back = models.DateField(null=True, blank=True)
+    borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+
+    @property
+    def is_overdue(self):
+        if self.due_back and date.today() > self.due_back:
+            return True
+        return False
 
     LOAN_STATUS = (
         ('m', 'Maintenance'),
@@ -75,8 +85,6 @@ class BookInstance(models.Model):
     def __str__(self):
         """string for representing the model object"""
         return f'{self.id} ({self.book.title})'
-
-
 
 class Author(models.Model):
     """model representing an author"""
