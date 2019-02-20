@@ -5,6 +5,7 @@ from django.conf.urls import url
 from django.urls import include
 
 urlpatterns = [
+        path('', views.index, name="index"),
         path('index/', views.index, name="index"),
         path('submit/', views.SubmitView, name="submit"),
 	path('about/', views.about, name="about"),
