@@ -69,6 +69,10 @@ form textarea {
 	max-width: 100%;
 }
 
+label {
+	font-family: 'Playfair Display SC', serif;
+}
+
 
 nav ul {
 	display: flex;
@@ -76,6 +80,10 @@ nav ul {
 	justify-content: space-around;
 
 	letter-spacing: 1px;
+}
+
+p {
+	font-family: 'Playfair Display', serif;
 }
 
 .comment {
