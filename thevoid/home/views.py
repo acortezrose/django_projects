@@ -8,7 +8,7 @@ from django.core.paginator import Paginator
 # Create your views here.
 
 def index(request):
-	comment_list = Comment.objects.all()
+	comment_list = Comment.objects.all().order_by('created_date').reverse()
 	paginator = Paginator(comment_list, 10)
 	page = request.GET.get('page')
 	comments = paginator.get_page(page)
