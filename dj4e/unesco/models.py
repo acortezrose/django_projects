@@ -25,7 +25,7 @@ class ISO(models.Model) :
 	name = models.CharField(max_length=128, null=True, blank=True)
 
 	def __str__(self) :
-		return self.iso
+		return self.name
 
 class Site(models.Model):
     name = models.CharField(max_length=128)
