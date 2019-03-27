@@ -23,13 +23,13 @@ class AdDetailView(OwnerDetailView):
 
 class AdCreateView(OwnerCreateView):
 	model = Ad
+	fields = ['title', 'text', 'price']
 	template_name = "ad_form.html"
-	fields = ['title', 'text']
     
 
 class AdUpdateView(OwnerUpdateView):
     model = Ad
-    fields = ['title', 'text']
+    fields = ['title', 'text', 'price']
     template_name = "ad_form.html"
 
 class AdDeleteView(OwnerDeleteView):
