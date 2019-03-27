@@ -24,7 +24,7 @@ urlpatterns = [
     path('', include('home.urls')),  # Keep
     path('admin/', admin.site.urls),  # Keep
     path('accounts/', include('django.contrib.auth.urls')),  # Keep
-    # path('ads/', include('ads.urls')),  # Keep
+    path('ads/', include('ads.urls')),  # Keep
 ]
 
 # Keep everything below this line
