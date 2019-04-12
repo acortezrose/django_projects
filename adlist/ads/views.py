@@ -15,11 +15,16 @@ from ads.forms import CreateForm, CommentForm
 
 class AdListView(OwnerListView):
     def get(self, request):
-    	model = Ad
-    	template_name = "ad_list.html"
-    	adlist = Ad.objects.all()
-    	context = { 'adlist' : adlist }
-    	return render(request, template_name, context)
+        model = Ad
+        template_name = "ad_list.html"
+        adlist = Ad.objects.all()
+        favorites = list()
+        if request.user.is_authenticated:
+            rows = request.user.favorite_ads.values('id')
+            favorites = [ row['id'] for row in rows ]
+
+        context = { 'adlist' : adlist, 'favorites': favorites }
+        return render(request, template_name, context)
 
 class AdDetailView(OwnerDetailView):
     model = Ad
@@ -47,6 +52,33 @@ class AdDeleteView(OwnerDeleteView):
     template_name = "ad_delete.html"
 
 
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from django.db.utils import IntegrityError
+
+@method_decorator(csrf_exempt, name='dispatch')
+class AddFavoriteView(LoginRequiredMixin, View):
+    def post(self, request, pk) :
+        print("Add PK",pk)
+        t = get_object_or_404(Ad, id=pk)
+        fav = Fav(user=request.user, ad=t)
+        try:
+            fav.save()  
+        except IntegrityError as e:
+            pass
+        return HttpResponse()
+
+@method_decorator(csrf_exempt, name='dispatch')
+class DeleteFavoriteView(LoginRequiredMixin, View):
+    def post(self, request, pk) :
+        print("Delete PK",pk)
+        t = get_object_or_404(Ad, id=pk)
+        try:
+            fav = Fav.objects.get(user=request.user, ad=t).delete()
+        except Fav.DoesNotExist as e:
+            pass
+
+        return HttpResponse()
 
 class PicFormView(LoginRequiredMixin, View):
     template = 'ad_form.html'
