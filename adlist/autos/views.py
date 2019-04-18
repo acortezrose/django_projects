@@ -73,7 +73,7 @@ class CommentCreateView(OwnerCreateView):
 		f = get_object_or_404(Auto, id=pk)
 		comment = Comment(text=request.POST['comment'], owner=request.user, auto=f)
 		comment.save()
-		return redirect(reverse_lazy('autos/auto_detail', args=[pk]))
+		return redirect(reverse_lazy('auto_detail', args=[pk]))
 
 
 class CommentDeleteView(OwnerDeleteView):
