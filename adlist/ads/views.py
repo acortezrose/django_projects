@@ -123,7 +123,7 @@ class CommentCreateView(OwnerCreateView):
         comment_form = CommentForm(request.POST)
         comment = Comment(text=request.POST['comment'], owner=request.user, ad=f)
         comment.save()
-        return redirect(reverse_lazy('ads/ad_detail', args=[pk]))
+        return redirect(reverse_lazy('ad_detail', args=[pk]))
 
 class CommentDeleteView(OwnerDeleteView):
     model = Comment
