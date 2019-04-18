@@ -16,7 +16,7 @@ from ads.forms import CreateForm, CommentForm
 class AdListView(OwnerListView):
     def get(self, request):
         model = Ad
-        template_name = "ad_list.html"
+        template_name = "ads/ad_list.html"
         adlist = Ad.objects.all()
         favorites = list()
         if request.user.is_authenticated:
@@ -28,7 +28,7 @@ class AdListView(OwnerListView):
 
 class AdDetailView(OwnerDetailView):
     model = Ad
-    template_name = "ad_detail.html"
+    template_name = "ads/ad_detail.html"
 
     def get(self, request, pk) :
         ad = Ad.objects.get(id=pk)
@@ -40,16 +40,16 @@ class AdDetailView(OwnerDetailView):
 class AdCreateView(OwnerCreateView):
     model = Ad
     fields = ['title', 'text', 'price', 'picture']
-    template_name = "ad_form.html"
+    template_name = "ads/ad_form.html"
 
 class AdUpdateView(OwnerUpdateView):
     model = Ad
     fields = ['title', 'text', 'price', 'picture']
-    template_name = "ad_form.html"
+    template_name = "ads/ad_form.html"
 
 class AdDeleteView(OwnerDeleteView):
     model = Ad
-    template_name = "ad_delete.html"
+    template_name = "ads/ad_delete.html"
 
 
 from django.views.decorators.csrf import csrf_exempt
@@ -81,7 +81,7 @@ class DeleteFavoriteView(LoginRequiredMixin, View):
         return HttpResponse()
 
 class PicFormView(LoginRequiredMixin, View):
-    template = 'ad_form.html'
+    template = 'ads/ad_form.html'
     success_url = reverse_lazy('ads')
     def get(self, request, pk=None) :
         if not pk :
@@ -123,8 +123,8 @@ class CommentCreateView(OwnerCreateView):
         comment_form = CommentForm(request.POST)
         comment = Comment(text=request.POST['comment'], owner=request.user, ad=f)
         comment.save()
-        return redirect(reverse_lazy('ad_detail', args=[pk]))
+        return redirect(reverse_lazy('ads/ad_detail', args=[pk]))
 
 class CommentDeleteView(OwnerDeleteView):
     model = Comment
-    template_name = "comment_delete.html"
+    template_name = "ads/comment_delete.html"
