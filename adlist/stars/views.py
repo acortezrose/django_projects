@@ -49,7 +49,7 @@ class StarFormView(LoginRequiredMixin, View):
 		if not pk:
 			form = CreateForm(request.POST, request.FILES or None)
 		else:
-			star = get_object_or_404(star, id=pk, owner=self.request.user)
+			star = get_object_or_404(Star, id=pk, owner=self.request.user)
 			form = CreateForm(request.POST, request.FILES or None, instance=star)
 
 		if not form.is_valid() :
